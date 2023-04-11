@@ -74,7 +74,7 @@ updateProduct = async (productoId, field, updateData) => {
         return;
     }
 products [index][field] = updateData;
-fs.writeFIle (this.path, JSON.stringify(products), (err)=> {
+fs.writeFile (this.path, JSON.stringify(products), (err)=> {
     if (err) throw err;
     console.log ("Producto actualizado desde updateProduct")
 })
@@ -106,6 +106,9 @@ productos.addProduct('producto2', 'es un producto nuevo', 11, 'sin foto', '20', 
 productos.addProduct('producto2', 'es un producto modificado', 12, 'sin foto', '30', 35);
 
 console.log(productos.getProducts());
+console.log (productos.getProductById(2));
+productos.updateProduct(1,'description', 'producto demorado');
+productos.deleteProduct(3);
 
 /*TEST 
 [
