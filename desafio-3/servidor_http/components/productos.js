@@ -1,7 +1,6 @@
 const fs = require('fs');
-const { test } = require('node:test');
 
-class productManager {
+export default class productManager {
     constructor() {
         this.productos = [];
         this.productoContadorId = 1;
@@ -100,15 +99,25 @@ deleteProduct = async (deleteById) => {
 
 }
 
+/*
 const productos = new productManager('./productos.json');
-productos.addProduct('producto1', 'es un producto', 10, 'sin foto', '10', 5);
-productos.addProduct('producto2', 'es un producto nuevo', 11, 'sin foto', '20', 15);
-productos.addProduct('producto2', 'es un producto modificado', 12, 'sin foto', '30', 35);
+productos.addProduct('producto1', 'es un producto 1', 10, 'sin foto', '10', 5);
+productos.addProduct('producto2', 'es un producto 2', 11, 'sin foto', '20', 15);
+productos.addProduct('producto3', 'es un producto 3', 12, 'sin foto', '30', 35);
+productos.addProduct('producto4', 'es un producto 4', 12, 'sin foto', '40', 50);
+productos.addProduct('producto5', 'es un producto 5', 12, 'sin foto', '50', 65);
+productos.addProduct('producto6', 'es un producto 6', 12, 'sin foto', '60', 80);
+productos.addProduct('producto7', 'es un producto 7', 12, 'sin foto', '70', 95);
+productos.addProduct('producto8', 'es un producto 8', 12, 'sin foto', '80', 110);
+productos.addProduct('producto9', 'es un producto 9', 12, 'sin foto', '90', 125);
+productos.addProduct('producto10','es un producto 10', 12, 'sin foto', '100',140);
 
-console.log(productos.getProducts());
-console.log (productos.getProductById(2));
-productos.updateProduct(1,'description', 'producto demorado');
-productos.deleteProduct(3);
+*/ 
+
+//console.log(productos.getProducts());
+//console.log (productos.getProductById(2));
+//productos.updateProduct(1,'description', 'producto demorado');
+//productos.deleteProduct(3);
 
 /*TEST 
 [
@@ -124,7 +133,7 @@ productos.deleteProduct(3);
     {
       title: 'producto2',
       description: 'es un producto nuevo',
-      price: 11,
+      price: 11,/
       thumbnail: 'sin foto',
       code: '20',
       stock: 15,
