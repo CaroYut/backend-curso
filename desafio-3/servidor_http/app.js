@@ -1,4 +1,4 @@
-import express, { query } from "express";
+//import express, { query } from "express";
 import ProductManager from "./components/productos.js";
 
 const app = express();
