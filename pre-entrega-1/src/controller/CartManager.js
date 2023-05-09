@@ -6,7 +6,7 @@ const productAll = new ProductManager
 
 class CartManager {
     constructor() {
-        this.path = "./src/models/cart.json";
+        this.path = "./src/models/carts.json";
     }
 
     readCarts = async () => {
@@ -15,8 +15,8 @@ class CartManager {
 
     }
 
-    writeCarts = async (cart) => {
-        await fs.writeFile(this.path, JSON.stringify(cart));  //quien escribe en nuestros products
+    writeCarts = async (carts) => {
+        await fs.writeFile(this.path, JSON.stringify(carts));  //quien escribe en nuestros products
     }
 
     addCarts = async () => {
@@ -35,7 +35,7 @@ class CartManager {
     getCartsById = async (id) => {
         let cartsById = await this.existeProducto(id);
         if (!cartsById) return "CARRITO NO ENCONTRADO"
-        return productsById
+        return cartsById
     };
 
     addProductInCart = async (cartId, productId) => {
@@ -65,7 +65,6 @@ class CartManager {
         await this.writeCarts(cartsConcat)
         return "Producto agregado al carrito"
     }
-
 
 
 }

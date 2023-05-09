@@ -8,7 +8,6 @@ const PORT = 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use("/api/products", productRouter)
 
 app.use("/api/cart", CartRouter)
