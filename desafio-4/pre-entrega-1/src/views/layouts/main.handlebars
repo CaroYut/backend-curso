@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    {{{body}}}
+
+ <script src= "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"> </script>
+<script>
+
+ const wsc = io('ws://localhost:8080');
+ 
+ ws.on ('connect', () => {
+ wsc.emit('event_cl01' ,'Cliente 01 intentando conectar');
+ 
+ wsc.on('server_confirm', (msg) =>{
+ console.log(msg);
+ 
+ });
+ });
+ </script>
+</body>
+</html>
