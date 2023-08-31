@@ -1,24 +1,27 @@
-//import express, { query } from "express";
+import express from "express";
 import ProductManager from "./components/productos.js";
 
 const app = express();
 app.use(express.urlencoded({extended:true}));
 
 const productos = new ProductManager(); 
-const leerProductos = productos.readProducts();
-console.log (await leerProductos);
+const productManager = productos.readProducts(); 
+//const leerProductos = productos.readProducts();
+//console.log (await leerProductos);
 
 app.get("/products", async (req,res)=> {
-	let limit = parseInt(req.query.limit);
-	if (!limit) return res.send(await leerProductos) // si es distinto me trae todo los productos
-	let allProducts = await leerProductos; // me trae todos los productos
+	const limit = parseInt(req.query.limit);
+	if (!limit) {
+		return res.send(await productManager)  // si es distinto me trae todo los productos
+	}
+	let allProducts = await productManager; // me trae todos los productos
 	let productLimit = allProducts.slice(0, limit) // slice hace una copia del array y nos muestra una parte
 	res.send(productLimit);  
 }); 
 
 app.get("/products/:id", async (req,res)=> {
 	let id = parseInt (req.params.id);
-	let allProducts = await leerProductos;
+	let allProducts = await productManager;
 	let productosById = allProducts.find(product => product.id === id);
 	res.send(productosById);
 });

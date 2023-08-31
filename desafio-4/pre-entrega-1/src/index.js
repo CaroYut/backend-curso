@@ -5,7 +5,7 @@ import {engine} from "express-handlebars";
 import * as path from "path";
 import __dirname from "./utils.js";
 import ProductManager from "./controller/ProductManager.js";
-import {Server} from 'socket.io';
+import {Server} from 'socket.io'; 
 
 
 const WS_PORT = 8080;
@@ -20,10 +20,12 @@ const httpServer = app.listen (WS_PORT, () =>{
     console.log (`servidor socketIO iniciado en puerto ${WS_PORT}`)
 });
 
-const wss = new Server (httpServer, {
-    cors: {
+const wss = new Server (httpServer) 
+    
+  /*cors: {
      origin: "http://localhost:3000"
-   }})
+   } 
+  
   
    wss.on('connection', (socket) => {
     console.log (`Cliente conectado (${socket.id})`);
@@ -37,6 +39,7 @@ const wss = new Server (httpServer, {
        console.log(data);
       });
     });
+*/ 
 
 // estructura motor de plantilla
 app.engine ("handlebars", engine())
