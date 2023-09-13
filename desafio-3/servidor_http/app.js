@@ -1,43 +1,40 @@
-import express from "express";
-import ProductManager from "./components/productos.js";
 
-const app = express();
-app.use(express.urlencoded({extended:true}));
+ import express from "express";
+ import ProductManager from "./components/productos.js";
 
-const productos = new ProductManager(); 
-const productManager = productos.readProducts(); 
-//const leerProductos = productos.readProducts();
-//console.log (await leerProductos);
+ const app = express();
+ app.use(express.urlencoded({extended:true}));
+ const productManager = new ProductManager(); 
+ let allProducts = productManager.getProducts(); 
 
-app.get("/products", async (req,res)=> {
+ app.get("/products/", (req,res) => {
+
 	const limit = parseInt(req.query.limit);
+	const products = productManager.getProducts(); 
 	if (!limit) {
-		return res.send(await productManager)  // si es distinto me trae todo los productos
+		return res.send(products)  // si es distinto me trae todo los productos
 	}
-	let allProducts = await productManager; // me trae todos los productos
-	let productLimit = allProducts.slice(0, limit) // slice hace una copia del array y nos muestra una parte
-	res.send(productLimit);  
-}); 
+	const productLimit = products.slice(0, limit) // slice hace una copia del array y nos muestra una parte
+	res.send(productLimit);
+ }); 
 
-app.get("/products/:id", async (req,res)=> {
-	let id = parseInt (req.params.id);
-	let allProducts = await productManager;
-	let productosById = allProducts.find(product => product.id === id);
-	res.send(productosById);
-});
+ app.get("/products/:pid", (req,res) => {
+	let pid = parseInt(req.params.pid);
+	res.send({product:allProducts.find(item => item.id === pid) || "Error, el id del producto no existe"});
+	
 
-const PORT = 8080;
+ });
 
-app.use(express.json())
+ const PORT = 8080;
 
-app.listen(PORT, () => {
-    console.log(`Server is running. http://localhost:${PORT}`)
-})
+ app.listen(PORT, () => {
+    console.log("Server is running: " + PORT);
+ });
 
 
-/*
-TEST
-http://localhost:8080/products
-http://localhost:8080/products/?limit=5
-http://localhost:8080/products/5
-*/
+
+//TEST
+//http://localhost:8080/products
+//http://localhost:8080/products/?limit=5
+ //http://localhost:8080/products/2
+

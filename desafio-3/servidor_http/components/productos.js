@@ -1,59 +1,90 @@
-
-import { promises as fs} from "fs";
-export default class ProductManager {
-constructor () {
- this.patch = "./productos.json";
- this.products = [];
-}
-
-static id = 0;
-
-addProduct = async (title,description,price,imagen,code,stock) => {
-
-ProductManager.id++;
-let newProduct = {
-title,
-description,
-price,
-imagen,
-code,
-stock,
-id: ProductManager.id,
-};
-
-this.products.push(newProduct);
-
-await fs.writeFile(this.patch, JSON.stringify(this.products))
-};
-
-readProducts = async () => {
-let respuesta = await fs.readFile (this.patch, "utf-8");
-return JSON.parse (respuesta);
-};
-
-getProducts = async () => {
-};
-
-getProductsById = async (id) => {
-};
+  import fs from "fs";
+  class ProductManager {
+    constructor () {
+        this.products = [];
+        this.path = "./productos.json";
+        this.createFile();
+    }
 
 
-deleteProductsById = async (id) => {
+    createFile() {
 
-let respuesta3 = await this.readProducts();
-let productFilter = respuesta3.filter ((products) => products.id != id);
-await fs.writeFile (this.patch, JSON.stringify (productFilter));
-console.log ("Producto eliminado")
+        if (!fs.existsSync(this.path)){
+            fs.writeFileSync(this.path, JSON.stringify(this.products));
+        }
+    }
 
-};
 
-updateProducts = async ( {id, ...producto}) => {
+    addProduct (product)  {
+        if (this.validateCode(product.code)) {
+            console.log ("Error, el codigo existe");
+        } else {
+            const producto = {id:this.generateId(), title: product.title, description:product.description, price:product.price, thumbnail:product.thumbnail, code:product.code, stock:product.stock};
+            this.products = this.getProducts();
+            this.products.push(producto);
+            this.saveProducts();
+            console.log("Producto agregado");
+        }
+    }
 
-await this.deleteProductsById (id);
-let productoId = await this.readProducts ();
-let productosModif = [{...producto,id}, ...productoId];
-await fs.writeFile (this.patch, JSON.stringify (productosModif));
-};
-}
+    updateProduct(id, product) {
+        this.products = this.getProducts();
+        let pos = this.products.findIndex(item => item.id === id);
 
-//const productos = new ProductManager ();
+        if ( pos > -1) {
+            this.products[pos].title = product.title;
+            this.products[pos].description = product.description;
+            this.products[pos].price = product.price;
+            this.products[pos].thumbnail = product.thumbnail;
+            this.products[pos].code = product.code;
+            this.products[pos].stock = product.stock;
+            this.saveProducts();
+            console.log ("producto actualizado");
+        } else {
+            console.log ("No se encuentra");
+        }
+    }
+
+    deleteProduct (id) {
+        this.products = this.getProducts();
+        let pos = this.products.findIndex (item => item.id === id);
+        if (pos > -1) {
+            this.products.splice(pos,1); (0,1)
+            this.saveProducts();
+            console.log ("Producto eliminado");
+        } else {
+            console.log ("No encontrado");
+        }
+    }
+
+    getProducts() {
+        let products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+        return products;
+    }
+
+    getProductsById(id) {
+        this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+        return this.products.find(item => item.id === id) || "No encontrado";
+    }
+
+    validateCode(code) {
+        return this.products.some (item => item.code === code);
+
+    }
+
+    generateId(){
+        let max = 0;
+        this.products.forEach (item => {
+            if (item.id > max) {
+                max = item.id;
+            }
+        });
+        return max+1;
+    }
+
+    saveProducts() {
+        fs.writeFileSync(this.path, JSON.stringify(this.products));
+        }
+    }
+
+ export default ProductManager;
