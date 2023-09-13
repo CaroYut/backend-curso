@@ -35,6 +35,7 @@
 
 //TEST
 //http://localhost:8080/products
+//http://localhost:8080/products/?limit=2
 //http://localhost:8080/products/?limit=5
  //http://localhost:8080/products/2
 
